@@ -5,11 +5,11 @@
 目标：一个能聊天的基本产品，还没接 Pretext 优化。
 
 ### 1.1 项目初始化
-- [ ] Vite + Preact 项目脚手架
-- [ ] 安装依赖：`@chenglou/pretext`, `lucide-preact`
-- [ ] `index.html` 加载 Google Fonts（Inter 400/500/600, JetBrains Mono 400）
-- [ ] `global.css`：CSS 变量（亮色 + 暗色配色）、reset、字体声明
-- [ ] 确认 `npm run dev` 能跑起来
+- [x] Vite + Preact 项目脚手架
+- [x] 安装依赖：`@chenglou/pretext`, `lucide-preact`
+- [x] `index.html` 加载 Google Fonts（Inter 400/500/600, JetBrains Mono 400）
+- [x] `global.css`：CSS 变量（亮色 + 暗色配色）、reset、字体声明
+- [x] 确认 `npm run dev` 能跑起来
 
 ### 1.2 整体布局
 - [ ] `App.jsx`：Sidebar + Main Area 的 flex 布局
