@@ -120,6 +120,8 @@ Code:     13px / font-family var(--font-mono)
 
 Do NOT invent new font sizes or weights. Stick to these four.
 
+Exception: AI message body uses 15px / line-height 1.7 for readability. Markdown headings use 24px (h1), 20px (h2), 16px (h3) with weight 600.
+
 ### Spacing — multiples of 4px only
 
 4, 8, 12, 16, 24, 32, 48. No other values.
@@ -135,7 +137,7 @@ No bouncing, no elastic easing, no slow fades. Fast and crisp.
 ### Borders and shadows
 
 - Borders: 1px solid var(--border). Never 0.5px, never 2px (except focus ring).
-- Shadows: NONE. Exceptions: input focus → `box-shadow: 0 0 0 2px var(--bg-tertiary)`, dropdown menus → `box-shadow: 0 2px 8px var(--overlay)`
+- Shadows: NONE. Exceptions: input focus → `box-shadow: 0 0 0 2px var(--bg-tertiary)`, dropdown menus → `box-shadow: 0 2px 8px var(--overlay)`, user message bubble → `box-shadow: 0 1px 3px rgba(0,0,0,0.08)`
 - Border-radius: 8px (default), 12px (cards/bubbles), 20px (pill buttons/inputs)
 
 ### Component specifics
