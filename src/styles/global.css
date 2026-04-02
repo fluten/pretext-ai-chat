@@ -28,10 +28,12 @@
   --border: #E5E7EB;
   --border-hover: #D1D5DB;
 
-  --accent: #5B5BF0;
-  --accent-hover: #4F4FD9;
-  --accent-subtle: #EEF2FF;
+  --accent: #111111;
+  --accent-hover: #333333;
+  --accent-subtle: #F3F4F6;
   --text-on-accent: #FFFFFF;
+  --selection: #C0C0C0;
+  --selection-text: #111111;
   --overlay: rgba(0, 0, 0, 0.4);
 }
 
@@ -50,10 +52,12 @@ html.dark {
   --border: #222222;
   --border-hover: #333333;
 
-  --accent: #7B7BFF;
-  --accent-hover: #6B6BEF;
-  --accent-subtle: #1A1A2E;
-  --text-on-accent: #FFFFFF;
+  --accent: #F0F0F0;
+  --accent-hover: #CCCCCC;
+  --accent-subtle: #1E1E1E;
+  --text-on-accent: #0A0A0A;
+  --selection: #555555;
+  --selection-text: #F0F0F0;
   --overlay: rgba(0, 0, 0, 0.6);
 }
 
@@ -87,5 +91,6 @@ code {
 }
 
 ::selection {
-  background-color: var(--accent-subtle);
+  background: var(--selection);
+  color: var(--selection-text);
 }

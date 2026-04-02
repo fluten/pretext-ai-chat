@@ -11,12 +11,10 @@ export function useChat() {
 
   const send = useCallback(async (text) => {
     const settings = loadSettings()
-    if (!settings.apiKey) {
-      setError('Please set your API key in Settings first.')
-      return
-    }
-    if (!settings.model) {
-      setError('Please select a model in Settings first.')
+    if (!settings.apiKey || !settings.model) {
+      const userMessage = { role: 'user', content: text }
+      const noKeyMessage = { role: 'assistant', content: '', noKey: true }
+      setMessages(prev => [...prev, userMessage, noKeyMessage])
       return
     }
 

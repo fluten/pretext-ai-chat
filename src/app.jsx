@@ -19,7 +19,7 @@ export function App() {
         onToggleTheme={toggleTheme}
         onOpenSettings={() => setSettingsOpen(true)}
       />
-      <ChatView sidebarCollapsed={sidebarCollapsed} />
+      <ChatView sidebarCollapsed={sidebarCollapsed} onOpenSettings={() => setSettingsOpen(true)} />
       {settingsOpen && <Settings onClose={() => setSettingsOpen(false)} />}
     </div>
   )

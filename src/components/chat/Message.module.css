@@ -40,6 +40,23 @@
   color: var(--text-primary);
 }
 
+.settingsLink {
+  margin-top: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.settingsLink:hover {
+  background-color: var(--bg-tertiary);
+}
+
 .cursor {
   display: inline-block;
   width: 2px;

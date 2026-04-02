@@ -18,14 +18,56 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--text-tertiary);
-  font-size: 14px;
 }
 
-.error {
-  padding: 12px 16px;
-  font-size: 12px;
+.emptyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.emptyTitle {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+.prompts {
+  display: flex;
+  gap: 8px;
+}
+
+.promptButton {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
   color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.promptButton:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.goSettings {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.goSettings:hover {
+  background-color: var(--bg-tertiary);
 }
 
 .inputBar {
@@ -68,6 +110,11 @@
 
 .input::placeholder {
   color: var(--text-tertiary);
+}
+
+.input::selection {
+  background: var(--selection);
+  color: var(--selection-text);
 }
 
 .sendButton {

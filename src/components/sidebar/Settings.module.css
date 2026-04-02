@@ -91,8 +91,8 @@
 }
 
 .input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-subtle);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 0 2px var(--bg-tertiary);
 }
 
 .input::placeholder {
@@ -134,13 +134,13 @@
 }
 
 .select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-subtle);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 0 2px var(--bg-tertiary);
 }
 
 .detected {
   font-size: 12px;
-  color: var(--accent);
+  color: var(--text-primary);
 }
 
 .error {

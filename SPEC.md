@@ -165,9 +165,9 @@
 --border: #E5E7EB;            /* 边框，极淡 */
 --border-hover: #D1D5DB;      /* hover 边框 */
 
---accent: #5B5BF0;            /* 强调色：靛蓝偏紫，参考 Linear */
---accent-hover: #4F4FD9;      /* 强调色 hover */
---accent-subtle: #EEF2FF;     /* 强调色浅底（选中状态等） */
+--accent: #111111;            /* 强调色：与主文字同色，纯黑白灰体系 */
+--accent-hover: #333333;      /* 强调色 hover */
+--accent-subtle: #F3F4F6;     /* 强调色浅底（选中状态等） */
 ```
 
 **暗色模式：**
@@ -185,9 +185,9 @@
 --border: #222222;
 --border-hover: #333333;
 
---accent: #7B7BFF;            /* 暗色下强调色提亮 */
---accent-hover: #6B6BEF;
---accent-subtle: #1A1A2E;
+--accent: #F0F0F0;            /* 暗色下强调色：与主文字同色，纯黑白灰体系 */
+--accent-hover: #CCCCCC;
+--accent-subtle: #1E1E1E;
 ```
 
 ### 4.3 字体

@@ -1,14 +1,22 @@
 import { useState, useRef, useEffect } from 'preact/hooks'
 import { ArrowUp } from 'lucide-preact'
 import { useChat } from '../../hooks/useChat'
+import { loadSettings } from '../../lib/api'
 import { Message } from './Message'
 import styles from './ChatView.module.css'
 
-export function ChatView({ sidebarCollapsed }) {
+const PROMPTS = [
+  '帮我写一封邮件',
+  '解释量子计算',
+  '写一段 Python 代码'
+]
+
+export function ChatView({ sidebarCollapsed, onOpenSettings }) {
   const [inputValue, setInputValue] = useState('')
   const { messages, streaming, error, send } = useChat()
   const messageAreaRef = useRef(null)
   const hasContent = inputValue.trim().length > 0
+  const hasApiKey = loadSettings().apiKey
 
   useEffect(() => {
     if (messageAreaRef.current) {
@@ -16,11 +24,11 @@ export function ChatView({ sidebarCollapsed }) {
     }
   }, [messages])
 
-  const handleSend = () => {
-    const text = inputValue.trim()
-    if (!text || streaming) return
+  const handleSend = (text) => {
+    const value = (text || inputValue).trim()
+    if (!value || streaming) return
     setInputValue('')
-    send(text)
+    send(value)
   }
 
   const handleKeyDown = (e) => {
@@ -33,14 +41,31 @@ export function ChatView({ sidebarCollapsed }) {
   return (
     <main className={styles.chatView}>
       <div className={styles.messageArea} ref={messageAreaRef}>
-        {messages.length === 0 && !error && (
+        {messages.length === 0 && (
           <div className={styles.emptyState}>
-            <p>Send a message to start a conversation</p>
-          </div>
-        )}
-        {error && (
-          <div className={styles.error}>
-            <p>{error}</p>
+            {hasApiKey ? (
+              <div className={styles.emptyContent}>
+                <p className={styles.emptyTitle}>新对话已就绪</p>
+                <div className={styles.prompts}>
+                  {PROMPTS.map(p => (
+                    <button
+                      key={p}
+                      className={styles.promptButton}
+                      onClick={() => handleSend(p)}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className={styles.emptyContent}>
+                <p className={styles.emptyTitle}>配置 API Key 即可开始对话</p>
+                <button className={styles.goSettings} onClick={onOpenSettings}>
+                  前往设置
+                </button>
+              </div>
+            )}
           </div>
         )}
         {messages.map((msg, i) => (
@@ -49,6 +74,8 @@ export function ChatView({ sidebarCollapsed }) {
             role={msg.role}
             content={msg.content}
             streaming={streaming && i === messages.length - 1}
+            noKey={msg.noKey}
+            onOpenSettings={onOpenSettings}
           />
         ))}
       </div>
@@ -65,7 +92,7 @@ export function ChatView({ sidebarCollapsed }) {
           />
           <button
             className={`${styles.sendButton} ${hasContent ? styles.active : ''}`}
-            onClick={handleSend}
+            onClick={() => handleSend()}
             disabled={!hasContent || streaming}
           >
             <ArrowUp size={16} />
