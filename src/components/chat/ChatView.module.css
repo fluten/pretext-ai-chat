@@ -42,8 +42,8 @@
 }
 
 .inputWrapper:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-subtle);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 0 2px var(--bg-tertiary);
 }
 
 .input {
@@ -72,18 +72,17 @@
   height: 32px;
   border: none;
   border-radius: 50%;
-  background-color: var(--accent);
+  background-color: var(--bg-tertiary);
   color: var(--text-on-accent);
   cursor: pointer;
   flex-shrink: 0;
   transition: all 150ms ease;
-  opacity: 0.3;
 }
 
 .sendButton.active {
-  opacity: 1;
+  background-color: var(--text-secondary);
 }
 
 .sendButton.active:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--text-primary);
 }

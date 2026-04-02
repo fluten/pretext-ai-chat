@@ -1,7 +1,11 @@
+import { useState } from 'preact/hooks'
 import { ArrowUp } from 'lucide-preact'
 import styles from './ChatView.module.css'
 
 export function ChatView({ sidebarCollapsed }) {
+  const [inputValue, setInputValue] = useState('')
+  const hasContent = inputValue.trim().length > 0
+
   return (
     <main className={styles.chatView}>
       <div className={styles.messageArea}>
@@ -16,8 +20,10 @@ export function ChatView({ sidebarCollapsed }) {
             className={styles.input}
             placeholder="Type a message..."
             rows={1}
+            value={inputValue}
+            onInput={(e) => setInputValue(e.target.value)}
           />
-          <button className={styles.sendButton}>
+          <button className={`${styles.sendButton} ${hasContent ? styles.active : ''}`}>
             <ArrowUp size={16} />
           </button>
         </div>

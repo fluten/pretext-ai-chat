@@ -134,7 +134,7 @@ No bouncing, no elastic easing, no slow fades. Fast and crisp.
 ### Borders and shadows
 
 - Borders: 1px solid var(--border). Never 0.5px, never 2px (except focus ring).
-- Shadows: NONE. Only exception: input focus → `box-shadow: 0 0 0 2px var(--accent-subtle)`
+- Shadows: NONE. Only exception: input focus → `box-shadow: 0 0 0 2px var(--bg-tertiary)`
 - Border-radius: 8px (default), 12px (cards/bubbles), 20px (pill buttons/inputs)
 
 ### Component specifics
@@ -145,9 +145,9 @@ No bouncing, no elastic easing, no slow fades. Fast and crisp.
 
 **User messages**: bg-tertiary background. Right-aligned. border-radius 12px.
 
-**Input bar**: Fixed bottom. bg-secondary. border-radius 20px (pill). Focus = accent border + ring.
+**Input bar**: Fixed bottom. bg-secondary. border-radius 20px (pill). Focus = border-hover border + bg-tertiary ring.
 
-**Send button**: 32px circle, accent bg, white arrow icon. Disabled = opacity 0.3.
+**Send button**: 32px circle, white arrow icon. No content = bg-tertiary. Has content = bg text-secondary. Hover = bg text-primary.
 
 ## Code style
 
