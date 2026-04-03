@@ -45,11 +45,6 @@ export function useConversations() {
     return convos.length > 0 ? convos[0].id : null
   })
 
-  const persist = useCallback((updated) => {
-    setConversations(updated)
-    saveConversations(updated)
-  }, [])
-
   const createConversation = useCallback(() => {
     const id = generateId()
     const newConvo = { id, title: '', messages: [] }
@@ -105,13 +100,14 @@ export function useConversations() {
       saveConversations(updated)
       return updated
     })
-    if (activeId === id) {
-      setConversations(prev => {
-        setActiveId(prev.length > 0 ? prev[0].id : null)
-        return prev
-      })
-    }
-  }, [activeId])
+    setActiveId(prev => {
+      if (prev === id) {
+        const remaining = loadConversations().filter(c => c.id !== id)
+        return remaining.length > 0 ? remaining[0].id : null
+      }
+      return prev
+    })
+  }, [])
 
   const activeConversation = conversations.find(c => c.id === activeId) || null
 

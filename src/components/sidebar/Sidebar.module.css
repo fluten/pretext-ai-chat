@@ -9,13 +9,6 @@
   transition: all 150ms ease;
 }
 
-.sidebar.collapsed {
-  width: 0;
-  min-width: 0;
-  overflow: hidden;
-  border-right: none;
-}
-
 .header {
   display: flex;
   align-items: center;

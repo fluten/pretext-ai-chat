@@ -56,12 +56,6 @@ export function useChat(messages, onMessagesChange) {
     }
   }, [onMessagesChange])
 
-  const stop = useCallback(() => {
-    if (abortRef.current) {
-      abortRef.current.abort()
-    }
-  }, [])
-
   const regenerate = useCallback(() => {
     const current = messagesRef.current
     if (current.length < 2) return
@@ -79,5 +73,5 @@ export function useChat(messages, onMessagesChange) {
     send(userText)
   }, [onMessagesChange, send])
 
-  return { streaming, send, stop, regenerate }
+  return { streaming, send, regenerate }
 }
