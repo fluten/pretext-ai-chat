@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 10 npx vite --host)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(npx vite:*)",
+      "Bash(node -e ':*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(kill %1)",
+      "Bash(curl -s http://localhost:5173 -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:5175 -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:5176 -o /dev/null -w \"%{http_code}\")"
+    ]
+  }
+}
