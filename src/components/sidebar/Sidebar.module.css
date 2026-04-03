@@ -200,3 +200,13 @@
   background-color: var(--bg-tertiary);
   color: var(--text-primary);
 }
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    z-index: 50;
+    height: 100vh;
+  }
+}

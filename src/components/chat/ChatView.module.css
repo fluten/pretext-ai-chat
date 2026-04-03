@@ -137,3 +137,16 @@
 .sendButton.active:hover {
   background-color: var(--text-primary);
 }
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .inputBar {
+    left: 0 !important;
+    padding: 12px 16px;
+  }
+
+  .prompts {
+    flex-direction: column;
+  }
+}

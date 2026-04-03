@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'preact/hooks'
-import { X, Type } from 'lucide-preact'
+import { X, Type, Copy, Check } from 'lucide-preact'
 import { prepare, layout } from '@chenglou/pretext'
 import { FONT, LINE_HEIGHT } from '../../lib/pretext-engine'
 import { renderMarkdownToHTML } from '../../lib/markdown'
@@ -21,6 +21,7 @@ export function BenchView({ onClose }) {
   const [pretextJumps, setPretextJumps] = useState(0)
 
   const [nativeReflows, setNativeReflows] = useState(0)
+  const [exportCopied, setExportCopied] = useState(false)
 
   const nativeRef = useRef(null)
   const pretextRef = useRef(null)
@@ -255,10 +256,33 @@ export function BenchView({ onClose }) {
       {/* Summary */}
       {done && (
         <div className={styles.summary}>
-          高度跳变：原生 DOM <strong>{nativeJumps}</strong> 次 → Pretext <strong>{pretextJumps}</strong> 次
-          {reduction !== null && (
-            <span className={styles.good}>（减少 {reduction}%）</span>
-          )}
+          <span>
+            高度跳变：原生 DOM <strong>{nativeJumps}</strong> 次 → Pretext <strong>{pretextJumps}</strong> 次
+            {reduction !== null && (
+              <span className={styles.good}>（减少 {reduction}%）</span>
+            )}
+          </span>
+          <button
+            className={styles.exportButton}
+            onClick={() => {
+              const result = [
+                'Rendering Benchmark Results',
+                `Sample: ${customText !== null ? 'Custom' : SAMPLES[sampleIdx].label}`,
+                `Speed: ${speed} token/s`,
+                `Reflow (Native DOM): ${nativeReflows}`,
+                `Reflow (Pretext): 0`,
+                `Height jumps: Native ${nativeJumps} → Pretext ${pretextJumps}`,
+                reduction !== null ? `Reduction: ${reduction}%` : '',
+              ].filter(Boolean).join('\n')
+              navigator.clipboard.writeText(result).then(() => {
+                setExportCopied(true)
+                setTimeout(() => setExportCopied(false), 1500)
+              })
+            }}
+          >
+            {exportCopied ? <Check size={14} /> : <Copy size={14} />}
+            <span>{exportCopied ? '已复制' : '复制结果'}</span>
+          </button>
         </div>
       )}
       {/* Custom text modal */}

@@ -15,7 +15,8 @@ export function Sidebar({
   onSelectChat,
   onNewChat,
   onRenameChat,
-  onDeleteChat
+  onDeleteChat,
+  onExportChat
 }) {
   const [menuId, setMenuId] = useState(null)
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 })
@@ -135,6 +136,12 @@ export function Sidebar({
               onClick={() => handleRename(menuId, conversations.find(c => c.id === menuId)?.title)}
             >
               Rename
+            </button>
+            <button
+              className={styles.menuItem}
+              onClick={() => { setMenuId(null); onExportChat(menuId) }}
+            >
+              Export
             </button>
             <button
               className={styles.menuItem}

@@ -62,5 +62,22 @@ export function useChat(messages, onMessagesChange) {
     }
   }, [])
 
-  return { streaming, send, stop }
+  const regenerate = useCallback(() => {
+    const current = messagesRef.current
+    if (current.length < 2) return
+    // Find last user message, remove everything after it
+    let lastUserIdx = -1
+    for (let i = current.length - 1; i >= 0; i--) {
+      if (current[i].role === 'user') { lastUserIdx = i; break }
+    }
+    if (lastUserIdx < 0) return
+    const userText = current[lastUserIdx].content
+    const trimmed = current.slice(0, lastUserIdx)
+    onMessagesChange(trimmed)
+    // Update ref immediately so send() sees the trimmed messages
+    messagesRef.current = trimmed
+    send(userText)
+  }, [onMessagesChange, send])
+
+  return { streaming, send, stop, regenerate }
 }

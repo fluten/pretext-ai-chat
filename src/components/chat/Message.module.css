@@ -222,6 +222,44 @@
   font-weight: 600;
 }
 
+/* Assistant wrapper for actions */
+
+.assistantWrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  opacity: 0;
+  transition: all 150ms ease;
+}
+
+.assistantRow:hover .actions {
+  opacity: 1;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: var(--text-tertiary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.actionButton:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
 /* Misc */
 
 .settingsLink {
@@ -254,4 +292,17 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .userRow,
+  .assistantRow {
+    padding: 0 16px;
+  }
+
+  .actions {
+    opacity: 1;
+  }
 }

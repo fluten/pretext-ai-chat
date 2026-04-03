@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'preact/hooks'
+import { SAMPLE_CONVERSATION, SAMPLE_ID } from '../lib/sample-conversation'
 
 const STORAGE_KEY = 'conversations'
 
@@ -9,9 +10,20 @@ function generateId() {
 function loadConversations() {
   try {
     const data = localStorage.getItem(STORAGE_KEY)
-    return data ? JSON.parse(data) : []
+    if (data) {
+      const parsed = JSON.parse(data)
+      if (parsed.length === 0) return [SAMPLE_CONVERSATION]
+      // Always restore sample conversation to original state
+      const restored = parsed.map(c => c.id === SAMPLE_ID ? SAMPLE_CONVERSATION : c)
+      // Ensure sample exists if no other conversations
+      if (!restored.find(c => c.id === SAMPLE_ID) && restored.length === 0) {
+        return [SAMPLE_CONVERSATION]
+      }
+      return restored
+    }
+    return [SAMPLE_CONVERSATION]
   } catch {
-    return []
+    return [SAMPLE_CONVERSATION]
   }
 }
 

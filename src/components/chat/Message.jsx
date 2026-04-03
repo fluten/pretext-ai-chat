@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState, useMemo } from 'preact/hooks'
-import { Sparkles } from 'lucide-preact'
+import { useRef, useEffect, useState, useMemo, useCallback } from 'preact/hooks'
+import { Sparkles, Copy, Check, RefreshCw } from 'lucide-preact'
 import { renderMarkdown } from '../../lib/markdown'
 import { measureMessageHeight, shrinkwrapMessage } from '../../lib/pretext-engine'
 import styles from './Message.module.css'
@@ -15,7 +15,7 @@ function useFontReady() {
   return ready
 }
 
-export function Message({ role, content, streaming, noKey, onOpenSettings }) {
+export function Message({ role, content, streaming, noKey, onOpenSettings, onRegenerate }) {
   const isUser = role === 'user'
   const fontReady = useFontReady()
 
@@ -51,6 +51,15 @@ export function Message({ role, content, streaming, noKey, onOpenSettings }) {
     )
   }
 
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(content).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    })
+  }, [content])
+
   return (
     <div className={styles.assistantRow}>
       <div className={styles.avatar}>
@@ -59,20 +68,34 @@ export function Message({ role, content, streaming, noKey, onOpenSettings }) {
       {streaming ? (
         <StreamingContent content={content} />
       ) : (
-        <div
-          className={styles.assistantContent}
-          style={shrinkWidth != null ? { maxWidth: shrinkWidth + 'px' } : undefined}
-        >
-          {noKey ? (
-            <div>
-              <p>还没有配置 API Key，点击下方按钮前往设置。</p>
-              <button className={styles.settingsLink} onClick={onOpenSettings}>
-                打开设置
+        <div className={styles.assistantWrapper}>
+          <div
+            className={styles.assistantContent}
+            style={shrinkWidth != null ? { maxWidth: shrinkWidth + 'px' } : undefined}
+          >
+            {noKey ? (
+              <div>
+                <p>还没有配置 API Key，点击下方按钮前往设置。</p>
+                <button className={styles.settingsLink} onClick={onOpenSettings}>
+                  打开设置
+                </button>
+              </div>
+            ) : (
+              <div className={styles.markdown}>
+                {renderMarkdown(content)}
+              </div>
+            )}
+          </div>
+          {!noKey && content && (
+            <div className={styles.actions}>
+              <button className={styles.actionButton} onClick={handleCopy} title={copied ? '已复制' : '复制'}>
+                {copied ? <Check size={14} /> : <Copy size={14} />}
               </button>
-            </div>
-          ) : (
-            <div className={styles.markdown}>
-              {renderMarkdown(content)}
+              {onRegenerate && (
+                <button className={styles.actionButton} onClick={onRegenerate} title="重新生成">
+                  <RefreshCw size={14} />
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -6,6 +6,7 @@ import { BenchView } from './components/benchmark/BenchView'
 import { Settings } from './components/sidebar/Settings'
 import { useTheme } from './hooks/useTheme'
 import { useConversations } from './hooks/useConversations'
+import { exportConversation } from './lib/export'
 import styles from './app.module.css'
 
 export function App() {
@@ -55,6 +56,10 @@ export function App() {
         onNewChat={createConversation}
         onRenameChat={renameConversation}
         onDeleteChat={deleteConversation}
+        onExportChat={(id) => {
+          const conv = conversations.find(c => c.id === id)
+          if (conv) exportConversation(conv)
+        }}
       />
       {view === 'chat' && (
         <ChatView

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'preact/hooks'
 import { ArrowUp } from 'lucide-preact'
 import { useChat } from '../../hooks/useChat'
 import { loadSettings } from '../../lib/api'
+import { SAMPLE_ID, getRandomAlternative } from '../../lib/sample-conversation'
 import { measureMessageHeight } from '../../lib/pretext-engine'
 import { Message } from './Message'
 import styles from './ChatView.module.css'
@@ -31,7 +32,8 @@ export function ChatView({ sidebarCollapsed, onOpenSettings, conversation, onUpd
     onUpdateMessages(msgs)
   }, [onUpdateMessages])
 
-  const { streaming, send } = useChat(messages, handleMessagesChange)
+  const { streaming, send, regenerate } = useChat(messages, handleMessagesChange)
+  const isSample = conversation?.id === SAMPLE_ID
 
   // Font readiness for Pretext measurement
   const [fontReady, setFontReady] = useState(false)
@@ -206,6 +208,18 @@ export function ChatView({ sidebarCollapsed, onOpenSettings, conversation, onUpd
                     streaming={streaming && index === messages.length - 1}
                     noKey={msg.noKey}
                     onOpenSettings={onOpenSettings}
+                    onRegenerate={
+                      !streaming && msg.role === 'assistant'
+                        ? (isSample
+                          ? () => {
+                              const newContent = getRandomAlternative(index, msg.content)
+                              const next = [...messages]
+                              next[index] = { ...msg, content: newContent }
+                              onUpdateMessages(next)
+                            }
+                          : (index === messages.length - 1 && hasApiKey ? regenerate : undefined))
+                        : undefined
+                    }
                   />
                 </div>
               )
