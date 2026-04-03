@@ -162,6 +162,108 @@ function parseTable(rows, key) {
   )
 }
 
+/**
+ * Renders Markdown to an HTML string (for direct DOM use via innerHTML).
+ * Mirrors renderMarkdown() but outputs strings instead of Preact VNodes.
+ */
+export function renderMarkdownToHTML(text) {
+  if (!text) return ''
+  const lines = text.split('\n')
+  const parts = []
+  let i = 0
+
+  while (i < lines.length) {
+    const line = lines[i]
+
+    // Code block
+    if (line.startsWith('```')) {
+      const lang = line.slice(3).trim()
+      const codeLines = []
+      i++
+      while (i < lines.length && !lines[i].startsWith('```')) {
+        codeLines.push(lines[i])
+        i++
+      }
+      i++
+      const langAttr = lang ? ` class="language-${esc(lang)}"` : ''
+      parts.push(`<pre class="md-code-block"><code${langAttr}>${esc(codeLines.join('\n'))}</code></pre>`)
+      continue
+    }
+
+    // Headings
+    const headingMatch = line.match(/^(#{1,3})\s+(.+)/)
+    if (headingMatch) {
+      const level = headingMatch[1].length
+      parts.push(`<h${level} class="md-h${level}">${inlineToHTML(headingMatch[2])}</h${level}>`)
+      i++
+      continue
+    }
+
+    // Unordered list
+    if (line.match(/^[-*]\s+/)) {
+      const items = []
+      while (i < lines.length && lines[i].match(/^[-*]\s+/)) {
+        items.push(`<li>${inlineToHTML(lines[i].replace(/^[-*]\s+/, ''))}</li>`)
+        i++
+      }
+      parts.push(`<ul class="md-list">${items.join('')}</ul>`)
+      continue
+    }
+
+    // Ordered list
+    if (line.match(/^\d+\.\s+/)) {
+      const items = []
+      while (i < lines.length && lines[i].match(/^\d+\.\s+/)) {
+        items.push(`<li>${inlineToHTML(lines[i].replace(/^\d+\.\s+/, ''))}</li>`)
+        i++
+      }
+      parts.push(`<ol class="md-list">${items.join('')}</ol>`)
+      continue
+    }
+
+    // Empty line
+    if (line.trim() === '') {
+      i++
+      continue
+    }
+
+    // Paragraph
+    const paraLines = []
+    while (
+      i < lines.length &&
+      lines[i].trim() !== '' &&
+      !lines[i].startsWith('#') &&
+      !lines[i].startsWith('```') &&
+      !lines[i].startsWith('>') &&
+      !lines[i].match(/^[-*]\s+/) &&
+      !lines[i].match(/^\d+\.\s+/)
+    ) {
+      paraLines.push(lines[i])
+      i++
+    }
+    if (paraLines.length > 0) {
+      parts.push(`<p class="md-p">${inlineToHTML(paraLines.join('\n'))}</p>`)
+    }
+  }
+
+  return parts.join('')
+}
+
+function esc(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+function inlineToHTML(text) {
+  let result = esc(text)
+  // Inline code
+  result = result.replace(/`([^`]+)`/g, '<code class="md-inline-code">$1</code>')
+  // Bold
+  result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  // Italic
+  result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>')
+  return result
+}
+
 function parseInline(text) {
   const parts = []
   let remaining = text
